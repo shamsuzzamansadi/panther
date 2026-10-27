@@ -39,7 +39,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class ClientTest extends TestCase
 {
-    public function testCreateClient()
+    public function testCreateClient(): void
     {
         $client = self::createPantherClient();
         $this->assertInstanceOf(AbstractBrowser::class, $client);
@@ -48,7 +48,7 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(KernelInterface::class, self::$kernel);
     }
 
-    public function testWaitForEmptyLocator()
+    public function testWaitForEmptyLocator(): void
     {
         $this->expectException(InvalidSelectorException::class);
 
@@ -61,7 +61,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitFor(string $locator)
+    public function testWaitFor(string $locator): void
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor.html');
@@ -70,7 +70,7 @@ class ClientTest extends TestCase
         $this->assertSame('Hello', $crawler->filter('#hello')->text(null, true));
     }
 
-    public function testWaitForHiddenInputElement()
+    public function testWaitForHiddenInputElement(): void
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor-hidden-input.html');
@@ -89,7 +89,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForVisibility(string $locator)
+    public function testWaitForVisibility(string $locator): void
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor-element-to-be-visible.html');
@@ -102,7 +102,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForInvisibility(string $locator)
+    public function testWaitForInvisibility(string $locator): void
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor-element-to-be-invisible.html');
@@ -115,7 +115,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForElementToContain(string $locator)
+    public function testWaitForElementToContain(string $locator): void
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor-element-to-contain.html');
@@ -128,7 +128,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForElementToNotContain(string $locator)
+    public function testWaitForElementToNotContain(string $locator): void
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor-element-to-not-contain.html');
@@ -141,7 +141,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForEnabled(string $locator)
+    public function testWaitForEnabled(string $locator): void
     {
         $client = self::createPantherClient();
         $client->request('GET', '/waitfor-input-to-be-enabled.html');
@@ -154,7 +154,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForDisabled(string $locator)
+    public function testWaitForDisabled(string $locator): void
     {
         $client = self::createPantherClient();
         $client->request('GET', '/waitfor-input-to-be-disabled.html');
@@ -167,7 +167,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForAttributeToContain(string $locator)
+    public function testWaitForAttributeToContain(string $locator): void
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor-attribute-to-contain.html');
@@ -180,7 +180,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForAttributeToNotContain(string $locator)
+    public function testWaitForAttributeToNotContain(string $locator): void
     {
         $client = self::createPantherClient();
         $client->request('GET', '/waitfor-attribute-to-contain.html');
@@ -193,7 +193,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
-    public function testWaitForStalenessElement(string $locator)
+    public function testWaitForStalenessElement(string $locator): void
     {
         $client = self::createPantherClient();
         $client->request('GET', '/waitfor-staleness.html');
@@ -259,7 +259,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForExceptionsProvider
      */
-    public function testWaitForExceptions(string $method, array $args, string $message)
+    public function testWaitForExceptions(string $method, array $args, string $message): void
     {
         $this->expectException(TimeoutException::class);
         $this->expectExceptionMessage($message);
@@ -269,7 +269,7 @@ class ClientTest extends TestCase
         $client->$method(...($args + ['timeoutInSecond' => 1]));
     }
 
-    public function testExecuteScript()
+    public function testExecuteScript(): void
     {
         $client = self::createPantherClient();
         $client->request('GET', '/basic.html');
@@ -277,14 +277,14 @@ class ClientTest extends TestCase
         $this->assertSame('P1', $innerText);
     }
 
-    public function testExecuteScriptLogicExceptionWhenDriverIsNotStartedYet()
+    public function testExecuteScriptLogicExceptionWhenDriverIsNotStartedYet(): void
     {
         $this->expectException(\LogicException::class);
         $client = Client::createChromeClient();
         $client->executeScript('return document.querySelector(arguments[0]).innerText;', ['.p-1']);
     }
 
-    public function testExecuteAsyncScript()
+    public function testExecuteAsyncScript(): void
     {
         $client = self::createPantherClient();
         $client->request('GET', '/basic.html');
@@ -303,7 +303,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetCrawler(callable $clientFactory, string $type)
+    public function testGetCrawler(callable $clientFactory, string $type): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
         $this->assertInstanceOf(DomCrawlerCrawler::class, $crawler);
@@ -312,7 +312,7 @@ JS, ['.p-1']);
         }
     }
 
-    public function testRefreshCrawler()
+    public function testRefreshCrawler(): void
     {
         $client = self::createPantherClient();
 
@@ -335,7 +335,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testFollowLink(callable $clientFactory, string $type)
+    public function testFollowLink(callable $clientFactory, string $type): void
     {
         /** @var AbstractBrowser $client */
         $client = $clientFactory();
@@ -354,7 +354,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testSubmitForm(callable $clientFactory)
+    public function testSubmitForm(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
         $client = $clientFactory();
@@ -410,7 +410,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testSubmitFormWithValues(callable $clientFactory)
+    public function testSubmitFormWithValues(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
         $client = $clientFactory();
@@ -437,7 +437,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testHistory(callable $clientFactory)
+    public function testHistory(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
         $client = $clientFactory();
@@ -465,7 +465,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testCookie(callable $clientFactory, string $type)
+    public function testCookie(callable $clientFactory, string $type): void
     {
         /** @var AbstractBrowser $client */
         $client = $clientFactory();
@@ -518,7 +518,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testServerPort(callable $clientFactory)
+    public function testServerPort(callable $clientFactory): void
     {
         $expectedPort = $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? '9080';
         $clientFactory();
@@ -529,7 +529,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testBaseUri(callable $clientFactory)
+    public function testBaseUri(callable $clientFactory): void
     {
         self::stopWebServer();
 
@@ -549,7 +549,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testBrowserProvider(callable $clientFactory)
+    public function testBrowserProvider(callable $clientFactory): void
     {
         $client = $clientFactory();
         if (!$client instanceof Client) {
@@ -560,7 +560,7 @@ JS, ['.p-1']);
         $this->assertStringContainsString($client->getBrowserManager() instanceof ChromeManager ? 'Chrome' : 'Firefox', $client->getPageSource());
     }
 
-    public function testGetHistory()
+    public function testGetHistory(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('History is not available when using WebDriver.');
@@ -568,7 +568,7 @@ JS, ['.p-1']);
         self::createPantherClient()->getHistory();
     }
 
-    public function testPing()
+    public function testPing(): void
     {
         $client = self::createPantherClient();
         $client->request('GET', '/basic.html');
@@ -579,7 +579,7 @@ JS, ['.p-1']);
         $this->assertFalse($client->ping());
     }
 
-    public function testCreatePantherClientWithBrowserArguments()
+    public function testCreatePantherClientWithBrowserArguments(): void
     {
         $client = self::createPantherClient([
             'browser' => PantherTestCase::CHROME,
@@ -593,7 +593,7 @@ JS, ['.p-1']);
         self::stopWebServer();
     }
 
-    public function testCreatePantherClientWithInvalidBrowserArguments()
+    public function testCreatePantherClientWithInvalidBrowserArguments(): void
     {
         $this->expectException(\TypeError::class);
 
@@ -602,7 +602,7 @@ JS, ['.p-1']);
         ]);
     }
 
-    public function testCreateHttpBrowserClientWithHttpClientOptions()
+    public function testCreateHttpBrowserClientWithHttpClientOptions(): void
     {
         $client = self::createHttpBrowserClient([
             'http_client_options' => [
@@ -624,7 +624,7 @@ JS, ['.p-1']);
         self::stopWebServer();
     }
 
-    public function testCreateHttpBrowserClientWithInvalidHttpClientOptions()
+    public function testCreateHttpBrowserClientWithInvalidHttpClientOptions(): void
     {
         $this->expectException(\TypeError::class);
 
@@ -637,7 +637,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider providePrefersReducedMotion
      */
-    public function testPrefersReducedMotion(string $browser)
+    public function testPrefersReducedMotion(string $browser): void
     {
         $client = self::createPantherClient(['browser' => $browser]);
         $client->request('GET', '/prefers-reduced-motion.html');
@@ -650,7 +650,7 @@ JS, ['.p-1']);
     /**
      * @dataProvider providePrefersReducedMotion
      */
-    public function testPrefersReducedMotionDisabled(string $browser)
+    public function testPrefersReducedMotionDisabled(string $browser): void
     {
         $this->expectException(ElementClickInterceptedException::class);
 

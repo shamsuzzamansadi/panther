@@ -40,7 +40,6 @@ return (new PhpCsFixer\Config())
         'strict_comparison' => true,
         'strict_param' => true,
         'ternary_to_null_coalescing' => true,
-        'void_return' => false, // test methods must not have a return type, see Fabbot
     ])
     ->setFinder($finder)
 ;
